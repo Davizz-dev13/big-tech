@@ -16,7 +16,7 @@
 
   // Ordenar y filtrar
   var orden = document.getElementById("orden"), fs = document.getElementById("f-sector"), fp = document.getElementById("f-pais");
-  var num = function (el, k) { var v = el.dataset[k.replace(/_(.)/g, function (_, x) { return x.toUpperCase(); })]; return v === "" || v === undefined ? NaN : parseFloat(v); };
+  var num = function (el, k) { var v = el.getAttribute("data-" + k); return v === "" || v === null ? NaN : parseFloat(v); };
   function aplicar() {
     var k = orden.value, s = fs.value, p = fp.value;
     document.querySelectorAll(".bt-cards[data-grupo]").forEach(function (cont) {
