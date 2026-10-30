@@ -1,0 +1,277 @@
+{
+ "actualizado": "2026-10-30",
+ "metodo": "Resultado = ingresos − gastos operativos (pérdida/beneficio operativo). La pérdida neta contable va en 'otros' porque en OpenAI y Anthropic está dominada por ajustes de valor razonable de bonos convertibles y participaciones, no por el negocio. Gasto = costes y gastos operativos totales (no incluye inversión en centros de datos, capex, salvo que se indique).",
+ "labs": [
+  {
+   "id": "openai",
+   "nombre": "OpenAI",
+   "estado": "empresa privada · cifras estimadas de prensa",
+   "nota": "Ultima una ronda de hasta 30.000 M$ con una valoración de 1,25 billones de dólares antes de la ampliación, como puente hacia una salida a bolsa que Altman ha descartado para 2026.",
+   "ingresos_anual": {
+    "valor": 13070000000,
+    "periodo": "2025",
+    "etiqueta": "Ingresos 2025",
+    "fuente": "Where's Your Ed At (documentos auditados, verificados por el Financial Times)",
+    "url": "https://www.wheresyoured.at/exclusive-openai-financials/",
+    "fecha": "2026-06-15"
+   },
+   "ingresos_run_rate": {
+    "valor": 50000000000,
+    "fecha": "2026-10-08",
+    "etiqueta": "Ingresos anualizados (run-rate) a finales de septiembre de 2026, aprox.",
+    "fuente": "Bloomberg",
+    "url": "https://www.bloomberg.com/news/articles/2026-10-08/openai-s-annualized-revenue-nears-50-billion-ft-says"
+   },
+   "gasto_anual": {
+    "valor": 34000000000,
+    "periodo": "2025",
+    "etiqueta": "Costes y gastos operativos totales 2025",
+    "fuente": "Where's Your Ed At (documentos auditados, verificados por el Financial Times)",
+    "url": "https://www.wheresyoured.at/exclusive-openai-financials/",
+    "fecha": "2026-06-15"
+   },
+   "resultado_anual": {
+    "valor": -20920000000,
+    "periodo": "2025",
+    "etiqueta": "Pérdida operativa 2025",
+    "fuente": "Where's Your Ed At (documentos auditados, verificados por el Financial Times)",
+    "url": "https://www.wheresyoured.at/exclusive-openai-financials/",
+    "fecha": "2026-06-15"
+   },
+   "valoracion": {
+    "valor": 852000000000,
+    "fecha": "2026-03-31",
+    "etiqueta": "Última valoración (ronda cerrada de 122.000 M$, post-money)",
+    "fuente": "OpenAI (comunicado oficial)",
+    "url": "https://openai.com/index/accelerating-the-next-phase-ai/"
+   },
+   "otros": [
+    {
+     "etiqueta": "Pérdida neta atribuible 2025",
+     "valor": -38530000000,
+     "texto": "Incluye 41.550 M$ de pérdidas por cambios en el valor razonable de participaciones convertibles y warrants ligados a su conversión en empresa con ánimo de lucro.",
+     "fuente": "Where's Your Ed At; también Quartz (vía Yahoo Finance)",
+     "url": "https://finance.yahoo.com/markets/stocks/articles/openai-2025-financials-leaked-38-121508294.html",
+     "fecha": "2026-06-16"
+    },
+    {
+     "etiqueta": "Ronda en negociación",
+     "valor": 1250000000000,
+     "texto": "Cerca de cerrar hasta 30.000 M$ con una valoración de 1,25 billones de dólares antes de la ampliación (pre-money), liderada por inversores de EAU y Coatue. Aún no cerrada.",
+     "fuente": "CNBC",
+     "url": "https://www.cnbc.com/2026/10/22/openai-funding-round-uae-investors.html",
+     "fecha": "2026-10-22"
+    },
+    {
+     "etiqueta": "Objetivo de ingresos anualizados a final de 2026",
+     "valor": 70000000000,
+     "texto": "Espera alcanzar o superar 70.000 M$ anualizados a final de año, según fuentes de Bloomberg.",
+     "fuente": "Bloomberg",
+     "url": "https://www.bloomberg.com/news/articles/2026-10-09/openai-expects-70-billion-in-annualized-revenue-by-end-of-2026",
+     "fecha": "2026-10-09"
+    },
+    {
+     "etiqueta": "Salida a bolsa",
+     "valor": null,
+     "texto": "Sam Altman confirmó que OpenAI no saldrá a bolsa en 2026.",
+     "fuente": "Fortune",
+     "url": "https://fortune.com/2026/09/12/sam-altman-openai-ipo-delay-ill-advised-moment-safety-concerns/",
+     "fecha": "2026-09-12"
+    }
+   ],
+   "verificacion": "Ingresos, gasto y pérdidas de 2025 leídos en el artículo original de Ed Zitron (que cita documentos auditados verificados por el FT) y confirmados en Quartz/Yahoo Finance; el artículo del FT está tras muro de pago. La valoración de 852.000 M$ se leyó en el comunicado de OpenAI. Run-rate y objetivo de 70.000 M$ leídos en la cabecera y el resumen de Bloomberg (el resto está tras muro de pago). La ronda de 1,25 billones se leyó en CNBC. OpenAI no publica cuentas: todo son filtraciones o fuentes anónimas."
+  },
+  {
+   "id": "anthropic",
+   "nombre": "Anthropic",
+   "estado": "empresa privada · folleto de salida a bolsa (S-1) presentado, aún no cotiza",
+   "nota": "El 26 de octubre de 2026 presentó su folleto (S-1) para salir a bolsa en el Nasdaq con el ticker ANT; son sus primeras cuentas auditadas públicas.",
+   "ingresos_anual": {
+    "valor": 4585000000,
+    "periodo": "2025",
+    "etiqueta": "Ingresos 2025 (auditados)",
+    "fuente": "Anthropic, folleto S-1 ante la SEC",
+    "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm",
+    "fecha": "2026-10-26"
+   },
+   "ingresos_run_rate": {
+    "valor": 65000000000,
+    "fecha": "2026-08-17",
+    "etiqueta": "Ingresos anualizados (run-rate) a finales de julio de 2026",
+    "fuente": "Bloomberg; confirmado por CNBC",
+    "url": "https://www.bloomberg.com/news/articles/2026-08-17/anthropic-revenue-run-rate-surpasses-65-billion-ahead-of-ipo"
+   },
+   "gasto_anual": {
+    "valor": 12645000000,
+    "periodo": "2025",
+    "etiqueta": "Gastos operativos totales 2025 (incluye 1.500 M$ del acuerdo Bartz)",
+    "fuente": "Anthropic, folleto S-1 ante la SEC",
+    "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm",
+    "fecha": "2026-10-26"
+   },
+   "resultado_anual": {
+    "valor": -8060000000,
+    "periodo": "2025",
+    "etiqueta": "Pérdida operativa 2025",
+    "fuente": "Anthropic, folleto S-1 ante la SEC",
+    "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm",
+    "fecha": "2026-10-26"
+   },
+   "valoracion": {
+    "valor": 965000000000,
+    "fecha": "2026-05-28",
+    "etiqueta": "Última valoración (Serie H de 65.000 M$)",
+    "fuente": "CNBC",
+    "url": "https://www.cnbc.com/2026/05/28/anthropic-open-ai-startup-value.html"
+   },
+   "otros": [
+    {
+     "etiqueta": "1.er semestre 2026: ingresos",
+     "valor": 16286000000,
+     "texto": "Ingresos de enero a junio de 2026 (sin auditar), frente a 1.163 M$ un año antes.",
+     "fuente": "Anthropic, folleto S-1 ante la SEC",
+     "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm",
+     "fecha": "2026-10-26"
+    },
+    {
+     "etiqueta": "1.er semestre 2026: gastos operativos",
+     "valor": 16979000000,
+     "texto": "Gastos operativos totales de enero a junio de 2026; 8.945 M$ son cómputo e infraestructura.",
+     "fuente": "Anthropic, folleto S-1 ante la SEC",
+     "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm",
+     "fecha": "2026-10-26"
+    },
+    {
+     "etiqueta": "1.er semestre 2026: pérdida operativa",
+     "valor": -693000000,
+     "texto": "Casi en equilibrio operativo: pérdida de 693 M$ frente a 2.135 M$ un año antes.",
+     "fuente": "Anthropic, folleto S-1 ante la SEC",
+     "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm",
+     "fecha": "2026-10-26"
+    },
+    {
+     "etiqueta": "Pérdida neta contable 2025",
+     "valor": -41965000000,
+     "texto": "34.308 M$ de esa pérdida son ajustes de valor razonable de bonos convertibles y SAFE por la subida de su valoración, no gasto de caja.",
+     "fuente": "Anthropic, folleto S-1 ante la SEC",
+     "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm",
+     "fecha": "2026-10-26"
+    },
+    {
+     "etiqueta": "Pérdida neta contable 1.er semestre 2026",
+     "valor": -80748000000,
+     "texto": "72.388 M$ son ajustes de valor razonable de convertibles y otros 8.757 M$ son otros gastos no operativos.",
+     "fuente": "Anthropic, folleto S-1 ante la SEC",
+     "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm",
+     "fecha": "2026-10-26"
+    },
+    {
+     "etiqueta": "Ingresos 3.er trimestre 2026",
+     "valor": 16800000000,
+     "texto": "Según fuentes, Anthropic dijo a inversores que facturó 16.800 M$ en el tercer trimestre y fue rentable en términos ajustados. Cifra sin auditar.",
+     "fuente": "CNBC",
+     "url": "https://www.cnbc.com/2026/10/15/anthropics-third-quarter-revenue-hits-16point8-billion-ipo.html",
+     "fecha": "2026-10-14"
+    }
+   ],
+   "verificacion": "Ingresos, gastos, pérdida operativa y pérdida neta de 2025 y del 1.er semestre de 2026 leídos directamente en el folleto S-1 publicado en la SEC (2025 auditado; semestre sin auditar). La valoración de 965.000 M$ y el run-rate de 65.000 M$ se leyeron en CNBC y en el resumen de Bloomberg (confirmado por CNBC). Los ingresos del 3.er trimestre proceden de fuentes anónimas citadas por CNBC. El S-1 deja en blanco el run-rate a 31 de octubre y el rango de precio de la salida a bolsa."
+  },
+  {
+   "id": "xai",
+   "nombre": "xAI",
+   "estado": "integrada en SpaceX (cotiza como SPCX) · cifras del segmento de IA publicadas por SpaceX",
+   "nota": "Desde febrero de 2026 es parte de SpaceX, que cotiza en el Nasdaq desde junio; sus cifras son las del segmento de IA (ahora 'Super Intelligence': xAI, Grok, X y, desde agosto, Cursor), que en el 3.er trimestre de 2026 tuvo su primer beneficio operativo.",
+   "ingresos_anual": {
+    "valor": 3201000000,
+    "periodo": "2025",
+    "etiqueta": "Ingresos 2025 (segmento IA: xAI + X)",
+    "fuente": "SpaceX, folleto S-1 ante la SEC",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/spaceexplorationtechnologi.htm",
+    "fecha": "2026-05-20"
+   },
+   "ingresos_run_rate": {
+    "valor": 30240000000,
+    "fecha": "2026-10-20",
+    "etiqueta": "Ingresos del 3.er trimestre de 2026 × 4 (cálculo propio; incluye Cursor desde el 14 de agosto)",
+    "fuente": "SpaceX, resultados del 3.er trimestre de 2026",
+    "url": "https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf",
+    "calculado": true
+   },
+   "gasto_anual": {
+    "valor": 9556000000,
+    "periodo": "2025",
+    "etiqueta": "Costes operativos 2025 (ingresos + pérdida operativa; sin capex)",
+    "fuente": "SpaceX, folleto S-1 ante la SEC (cálculo: 3.201 + 6.355 M$)",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/spaceexplorationtechnologi.htm",
+    "fecha": "2026-05-20",
+    "calculado": true
+   },
+   "resultado_anual": {
+    "valor": -6355000000,
+    "periodo": "2025",
+    "etiqueta": "Pérdida operativa 2025 (segmento IA)",
+    "fuente": "SpaceX, folleto S-1 ante la SEC",
+    "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/spaceexplorationtechnologi.htm",
+    "fecha": "2026-05-20"
+   },
+   "valoracion": {
+    "valor": 250000000000,
+    "fecha": "2026-02-03",
+    "etiqueta": "Valoración en la fusión con SpaceX (ya no cotiza por separado)",
+    "fuente": "CNBC",
+    "url": "https://www.cnbc.com/2026/02/03/musk-xai-spacex-biggest-merger-ever.html"
+   },
+   "otros": [
+    {
+     "etiqueta": "Inversión (capex) del segmento IA en 2025",
+     "valor": 12727000000,
+     "texto": "Inversión en centros de datos y cómputo, aparte de los costes operativos.",
+     "fuente": "SpaceX, folleto S-1 ante la SEC",
+     "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/spaceexplorationtechnologi.htm",
+     "fecha": "2026-05-20"
+    },
+    {
+     "etiqueta": "3.er trimestre 2026: ingresos",
+     "valor": 7560000000,
+     "texto": "Ingresos del segmento 'Super Intelligence', +830 % interanual por nuevos contratos de servicios en la nube, la compra de Cursor y Grok.",
+     "fuente": "SpaceX, resultados del 3.er trimestre de 2026",
+     "url": "https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf",
+     "fecha": "2026-10-20"
+    },
+    {
+     "etiqueta": "3.er trimestre 2026: beneficio operativo",
+     "valor": 431000000,
+     "texto": "Primer trimestre con beneficio operativo del segmento, pese a 1.217 M$ de remuneración en acciones por la compra de Cursor.",
+     "fuente": "SpaceX, resultados del 3.er trimestre de 2026",
+     "url": "https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf",
+     "fecha": "2026-10-20"
+    },
+    {
+     "etiqueta": "Enero–septiembre 2026: pérdida operativa",
+     "valor": -3295000000,
+     "texto": "Pérdida operativa acumulada en nueve meses, con 10.939 M$ de ingresos.",
+     "fuente": "SpaceX, resultados del 3.er trimestre de 2026",
+     "url": "https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf",
+     "fecha": "2026-10-20"
+    },
+    {
+     "etiqueta": "Enero–septiembre 2026: capex",
+     "valor": 39995000000,
+     "texto": "Inversión del segmento en nueve meses, más del triple que en todo 2025.",
+     "fuente": "SpaceX, resultados del 3.er trimestre de 2026",
+     "url": "https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf",
+     "fecha": "2026-10-20"
+    },
+    {
+     "etiqueta": "Capitalización de SpaceX (SPCX)",
+     "valor": 1874000000000,
+     "texto": "Valor en bolsa de todo SpaceX (cohetes, Starlink e IA), intradía del 30 de octubre de 2026; xAI no tiene precio propio.",
+     "fuente": "Yahoo Finance",
+     "url": "https://finance.yahoo.com/quote/SPCX/",
+     "fecha": "2026-10-30"
+    }
+   ],
+   "verificacion": "Ingresos, pérdida operativa y capex de 2025 leídos en el folleto S-1 de SpaceX en la SEC; el gasto operativo es un cálculo (ingresos + pérdida). Cifras de 2026 leídas en el comunicado de resultados del 3.er trimestre de SpaceX (PDF oficial). La valoración de 250.000 M$ en la fusión se leyó en CNBC. La capitalización de SPCX se leyó en Yahoo Finance el 30-10-2026. Ojo: el segmento incluye X (antes Twitter) y, desde agosto de 2026, Cursor, así que no es solo xAI."
+  }
+ ]
+}
