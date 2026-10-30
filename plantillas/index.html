@@ -119,7 +119,7 @@
   {% if gid == 'otras' %}
   <section class="bt-sec" aria-labelledby="t-labs">
     <h2 id="t-labs">Laboratorios de IA</h2>
-    <p class="bt-nota">No cotizan (Anthropic ha pedido salir a bolsa; xAI está dentro de SpaceX): cifras de sus folletos ante la SEC o de prensa, cada una con su fuente. Actualizado a mano el {{ labs_actualizado }}.</p>
+    <p class="bt-nota">No cotizan por separado. Anthropic: cuentas auditadas de su folleto S-1 ante la SEC. xAI: segmento de IA de SpaceX (incluye X y Cursor), de las cifras de SpaceX. OpenAI: estimaciones de prensa. Cada cifra lleva su fuente; el resultado es el operativo (las pérdidas netas incluyen sobre todo ajustes contables de valor razonable, en el detalle). Actualizado a mano el {{ labs_actualizado }}.</p>
     <div class="bt-cards labs">
       {% for l in labs %}
       <article class="bt-card lab{% if l.rentable is false %} pierde{% endif %}">
@@ -131,7 +131,7 @@
               <span class="bt-badge {{ 'si' if l.rentable else ('no' if l.rentable is false else 'nd') }}"><small>Rentable {{ l.periodo }}</small>{{ 'SÍ' if l.rentable else ('NO' if l.rentable is false else '—') }}</span>
             </div>
             <dl class="bt-grid lab">
-              {% for it in l.principales %}<div><dt>{{ it.etiqueta }}</dt><dd class="{{ 'neg' if it.neg else '' }}">{{ it.valor }}{% if it.calculado %}<sup title="Cálculo propio">c</sup>{% endif %}</dd></div>{% endfor %}
+              {% for it in l.principales %}<div><dt>{{ it.corta }}</dt><dd class="{{ 'neg' if it.neg else '' }}">{{ it.valor }}{% if it.calculado %}<sup title="Cálculo propio">c</sup>{% endif %}</dd></div>{% endfor %}
             </dl>
             <p class="bt-labnota">{{ l.nota }}</p>
             <span class="bt-mas">Más cifras y fuentes</span>

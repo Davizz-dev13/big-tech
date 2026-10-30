@@ -118,7 +118,7 @@ def lab(d: dict) -> dict:
     def item(x, clave=None):
         if not x:
             return None
-        return {"etiqueta": x.get("etiqueta"), "valor": F.dinero(x["valor"]) if x.get("valor") is not None else "—",
+        return {"etiqueta": x.get("etiqueta"), "corta": x.get("corta") or x.get("etiqueta"), "valor": F.dinero(x["valor"]) if x.get("valor") is not None else "—",
                 "neg": (x.get("valor") or 0) < 0, "fuente": x.get("fuente"), "url": x.get("url"),
                 "fecha": F.fecha(x["fecha"]) if x.get("fecha") else "", "calculado": x.get("calculado", False),
                 "texto": x.get("texto")}
@@ -127,8 +127,8 @@ def lab(d: dict) -> dict:
         "id": d["id"], "nombre": d["nombre"], "estado": d.get("estado", ""), "nota": d.get("nota", ""),
         "rentable": None if r.get("valor") is None else r["valor"] > 0, "periodo": r.get("periodo", ""),
         "principales": [item(d.get(k)) for k in ("ingresos_anual", "gasto_anual", "resultado_anual", "ingresos_run_rate", "valoracion")
-                        if d.get(k)],
-        "otros": [item(o) for o in d.get("otros", [])], "verificacion": d.get("verificacion", ""),
+                        if d.get(k) and not d[k].get("calculado")],
+        "otros": [item(o) for o in d.get("otros", []) if not o.get("calculado")], "verificacion": d.get("verificacion", ""),
     }
 
 
