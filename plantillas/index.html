@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Big Tech · Sharpe Lab</title>
-<meta name="description" content="Ingresos, beneficio neto, margen, PER y gasto en capex de las 7 magníficas, los laboratorios de IA y otras {{ otras.n }} tecnológicas, con fuentes. Se actualiza sola.">
+<meta name="description" content="Ingresos, flujo de caja libre (FCF), margen FCF, precio/FCF y gasto en capex de las 7 magníficas, los laboratorios de IA y otras {{ otras.n }} tecnológicas, con fuentes. Se actualiza sola.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="canonical" href="https://davizz-dev13.github.io/big-tech/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Sharpe Lab">
 <meta property="og:title" content="Big Tech · Sharpe Lab">
-<meta property="og:description" content="Ingresos, beneficio y gasto en capex de las grandes tecnológicas y los laboratorios de IA.">
+<meta property="og:description" content="Ingresos, flujo de caja libre y gasto en capex de las grandes tecnológicas y los laboratorios de IA.">
 <meta property="og:url" content="https://davizz-dev13.github.io/big-tech/">
 <link rel="stylesheet" href="https://davizz-dev13.github.io/sharpe-lab/theme.css">
 <link rel="stylesheet" href="estilos.css?v={{ version }}">
@@ -30,18 +30,18 @@
     <label>Ordenar por
       <select id="orden">
         <option value="ingresos">Ingresos</option>
-        <option value="beneficio">Beneficio neto</option>
-        <option value="margen">Margen neto</option>
-        <option value="per">PER (menor primero)</option>
+        <option value="fcf">FCF</option>
+        <option value="margen_fcf">Margen FCF</option>
+        <option value="p_fcf">Precio / FCF (menor primero)</option>
         <option value="capex">Gasto en capex</option>
         <option value="az">A–Z</option>
       </select></label>
-    <p class="bt-ley" aria-hidden="true"><span><i class="gasto"></i>Gasto en capex</span><span><i class="ing"></i>Ingresos</span><span><i class="ben"></i>Beneficio</span></p>
+    <p class="bt-ley" aria-hidden="true"><span><i class="gasto"></i>Gasto en capex</span><span><i class="ing"></i>Ingresos</span><span><i class="ben"></i>Flujo de caja libre (FCF)</span></p>
   </div>
 
   {% macro barras(bs) %}
     <div class="bt-barras">
-      {% for b in bs %}<div class="bt-b"><span class="et">{{ b.etiqueta }}</span><span class="pista">{% if b.ancho is not none %}<i class="{{ b.clase }}{% if b.neg %} neg{% endif %}" style="width:{{ '%.1f' % b.ancho }}%"></i>{% endif %}</span><span class="v{% if b.neg %} rojo{% endif %}">{{ b.texto }}</span></div>{% endfor %}
+      {% for b in bs %}<div class="bt-b"><span class="et">{{ b.etiqueta }}</span><span class="pista{% if b.cero > 0 %} con-cero{% endif %}">{% if b.cero > 0 %}<s style="left:{{ '%.1f' % b.cero }}%"></s>{% endif %}{% if b.ancho is not none %}<i class="{{ b.clase }}{% if b.neg %} neg{% endif %}" style="left:{{ '%.1f' % b.izq }}%;width:{{ '%.1f' % b.ancho }}%"></i>{% endif %}</span><span class="v{% if b.neg %} rojo{% endif %}">{{ b.texto }}</span></div>{% endfor %}
     </div>
   {% endmacro %}
 
@@ -50,7 +50,7 @@
     <div class="bt-cab">
       {% if f.logo %}<img class="bt-logo" src="{{ f.logo }}" alt="" width="28" height="28" loading="lazy">{% else %}<span class="bt-logo bt-ini" aria-hidden="true">{{ f.inicial }}</span>{% endif %}
       <h3 title="{{ f.nombre }} ({{ f.ticker }})">{{ f.nombre }}</h3>
-      <p class="bt-kpi"><span>Margen neto <b class="{{ 'rojo' if f.c.margen.startswith('−') else '' }}">{{ f.c.margen }}</b></span><span>PER <b>{{ f.c.per }}</b></span></p>
+      <p class="bt-kpi"><span>Margen FCF <b class="{{ 'rojo' if f.c.margen_fcf.startswith('−') else '' }}">{{ f.c.margen_fcf }}</b></span><span>Precio / FCF <b>{{ f.c.p_fcf }}</b></span></p>
     </div>
     {{ barras(f.barras) }}
   </article>
@@ -66,9 +66,10 @@
         <div class="bt-cab">
           <span class="bt-logo bt-ini" aria-hidden="true">{{ l.nombre[:1] }}</span>
           <h3>{{ l.nombre }}</h3>
-          <p class="bt-kpi"><span>Margen op. <b class="{{ 'rojo' if l.margen.startswith('−') else '' }}">{{ l.margen }}</b></span><span>PER <b>no cotiza</b></span></p>
+          <p class="bt-kpi"><span>{{ l.margen_et }} <b class="{{ 'rojo' if l.margen.startswith('−') else '' }}">{{ l.margen }}</b></span><span>Precio / FCF <b>no cotiza</b></span></p>
         </div>
         {{ barras(l.barras) }}
+        {% if not l.con_fcf %}<p class="bt-pie">Resultado operativo (no hay FCF publicado)</p>{% endif %}
       </article>
       {% endfor %}
     </div>
@@ -84,7 +85,7 @@
 
   <section class="bt-sec bt-metodo" aria-labelledby="t-met">
     <h2 id="t-met">Fuentes y metodología</h2>
-    <p>Cifras de los últimos 12 meses publicados (suma de los cuatro últimos trimestres), en dólares. <b>Gasto en capex</b>: inversión en centros de datos, chips, fábricas y redes. <b>Margen neto</b>: beneficio neto / ingresos. <b>PER</b>: capitalización / beneficio neto. En cada tarjeta, las tres barras van a la misma escala. Laboratorios de IA: cifras de 2025; gasto = costes y gastos operativos totales (en xAI, capex del segmento de IA, que es la cifra que publica SpaceX), resultado = operativo, margen = resultado operativo / ingresos.</p>
+    <p>Cifras de los últimos 12 meses publicados (suma de los cuatro últimos trimestres), en dólares. <b>Gasto en capex</b>: inversión en centros de datos, chips, fábricas y redes. <b>Flujo de caja libre (FCF)</b>: flujo de caja operativo − capex, últimos 12 meses (Yahoo Finance). <b>Margen FCF</b>: FCF / ingresos. <b>Precio / FCF</b>: capitalización / FCF; con FCF negativo o cero no hay múltiplo («n. s.»). En cada tarjeta, las tres barras van a la misma escala; si el FCF es negativo, su barra va en rojo a la izquierda de la línea del cero. Laboratorios de IA: cifras de 2025; gasto = costes y gastos operativos totales (en xAI, capex del segmento de IA, que es la cifra que publica SpaceX). Anthropic: FCF = flujo de caja operativo − compras de inmovilizado, del estado de flujos de efectivo de su folleto S-1. OpenAI y xAI no publican flujo de caja: se muestra el resultado operativo, y el margen es resultado operativo / ingresos.</p>
     <p>Cuentas: Yahoo Finance ({% for gid, nombre, fs in grupos %}{% for f in fs %}<a href="{{ f.fuentes[0][1] }}" rel="noopener">{{ f.ticker }}</a>{% if not loop.last %}, {% endif %}{% endfor %}{% if not loop.last %}; {% endif %}{% endfor %}). Capitalización y logotipos: <a href="https://companiesmarketcap.com/">companiesmarketcap.com</a>.{% if tcs %} Cuentas en otra moneda pasadas a dólares con la media de cierres diarios del periodo: {% for m, tc, d, a, b in tcs %}{{ m }} a {{ tc }} ${% if not loop.last %}; {% endif %}{% endfor %}.{% endif %}</p>
     <p>Laboratorios: {% for l in labs %}<b>{{ l.nombre }}</b>, {{ l.estado }} ({% for it in l.principales[:3] %}<a href="{{ it.url }}" rel="noopener">{{ it.corta }}</a>{% if not loop.last %}, {% endif %}{% endfor %}){% if not loop.last %}; {% endif %}{% endfor %}.</p>
     {% if faltas %}<p>Sin dato en la fuente (se muestra «—»): {% for n, fs in faltas %}{{ n }} ({{ fs | join(', ') }}){% if not loop.last %}; {% endif %}{% endfor %}.</p>{% endif %}

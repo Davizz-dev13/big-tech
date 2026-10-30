@@ -1,6 +1,6 @@
 {
   "actualizado": "2026-10-30",
-  "metodo": "Resultado = ingresos − gastos operativos (pérdida/beneficio operativo). La pérdida neta contable va en 'otros' porque en OpenAI y Anthropic está dominada por ajustes de valor razonable de bonos convertibles y participaciones, no por el negocio. Gasto = costes y gastos operativos totales (no incluye inversión en centros de datos, capex, salvo que se indique).",
+  "metodo": "Resultado = ingresos − gastos operativos (pérdida/beneficio operativo). La pérdida neta contable va en 'otros' porque en OpenAI y Anthropic está dominada por ajustes de valor razonable de bonos convertibles y participaciones, no por el negocio. Gasto = costes y gastos operativos totales (no incluye inversión en centros de datos, capex, salvo que se indique). FCF (sólo Anthropic, la única con estado de flujos de efectivo publicado) = flujo de caja de las operaciones − compras de inmovilizado.",
   "labs": [
     {
       "id": "openai",
@@ -84,7 +84,7 @@
           "fecha": "2026-09-12"
         }
       ],
-      "verificacion": "Ingresos, gasto y pérdidas de 2025 leídos en el artículo original de Ed Zitron (que cita documentos auditados verificados por el FT) y confirmados en Quartz/Yahoo Finance; el artículo del FT está tras muro de pago. La valoración de 852.000 M$ se leyó en el comunicado de OpenAI. Run-rate y objetivo de 70.000 M$ leídos en la cabecera y el resumen de Bloomberg (el resto está tras muro de pago). La ronda de 1,25 billones se leyó en CNBC. OpenAI no publica cuentas: todo son filtraciones o fuentes anónimas."
+      "verificacion": "Ingresos, gasto y pérdidas de 2025 leídos en el artículo original de Ed Zitron (que cita documentos auditados verificados por el FT) y confirmados en Quartz/Yahoo Finance; el artículo del FT está tras muro de pago. La valoración de 852.000 M$ se leyó en el comunicado de OpenAI. Run-rate y objetivo de 70.000 M$ leídos en la cabecera y el resumen de Bloomberg (el resto está tras muro de pago). La ronda de 1,25 billones se leyó en CNBC. OpenAI no publica cuentas: todo son filtraciones o fuentes anónimas. No hay flujo de caja publicado en estas fuentes, así que no se muestra FCF (sólo resultado operativo)."
     },
     {
       "id": "anthropic",
@@ -116,6 +116,18 @@
         "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm",
         "fecha": "2026-10-26",
         "corta": "Gastos operativos 2025"
+      },
+      "fcf_anual": {
+        "valor": -2768000000,
+        "periodo": "2025",
+        "etiqueta": "Flujo de caja libre 2025 (flujo operativo − compras de inmovilizado)",
+        "flujo_operativo": -2637000000,
+        "capex": 131000000,
+        "texto": "Estado de flujos de efectivo del S-1: flujo de caja de las operaciones −2.637 M$ y compras de inmovilizado (property and equipment) 131 M$ en 2025.",
+        "fuente": "Anthropic, folleto S-1 ante la SEC",
+        "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm",
+        "fecha": "2026-10-26",
+        "corta": "FCF 2025 (flujos de efectivo)"
       },
       "resultado_anual": {
         "valor": -8060000000,
@@ -182,9 +194,17 @@
           "fuente": "CNBC",
           "url": "https://www.cnbc.com/2026/10/15/anthropics-third-quarter-revenue-hits-16point8-billion-ipo.html",
           "fecha": "2026-10-14"
+        },
+        {
+          "etiqueta": "1.er semestre 2026: flujo de caja libre",
+          "valor": 3447000000,
+          "texto": "Flujo de caja de las operaciones 3.929 M$ menos compras de inmovilizado 482 M$ (estado de flujos de efectivo del S-1, sin auditar).",
+          "fuente": "Anthropic, folleto S-1 ante la SEC",
+          "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm",
+          "fecha": "2026-10-26"
         }
       ],
-      "verificacion": "Ingresos, gastos, pérdida operativa y pérdida neta de 2025 y del 1.er semestre de 2026 leídos directamente en el folleto S-1 publicado en la SEC (2025 auditado; semestre sin auditar). La valoración de 965.000 M$ y el run-rate de 65.000 M$ se leyeron en CNBC y en el resumen de Bloomberg (confirmado por CNBC). Los ingresos del 3.er trimestre proceden de fuentes anónimas citadas por CNBC. El S-1 deja en blanco el run-rate a 31 de octubre y el rango de precio de la salida a bolsa."
+      "verificacion": "Ingresos, gastos, pérdida operativa y pérdida neta de 2025 y del 1.er semestre de 2026 leídos directamente en el folleto S-1 publicado en la SEC (2025 auditado; semestre sin auditar). La valoración de 965.000 M$ y el run-rate de 65.000 M$ se leyeron en CNBC y en el resumen de Bloomberg (confirmado por CNBC). Los ingresos del 3.er trimestre proceden de fuentes anónimas citadas por CNBC. El S-1 deja en blanco el run-rate a 31 de octubre y el rango de precio de la salida a bolsa. FCF 2025 (−2.768 M$) = flujo de caja de las operaciones (−2.637 M$) − compras de inmovilizado (131 M$), leídos en el estado de flujos de efectivo del S-1; 1.er semestre 2026: 3.929 − 482 = 3.447 M$."
     },
     {
       "id": "xai",
@@ -268,7 +288,7 @@
           "fecha": "2026-10-30"
         }
       ],
-      "verificacion": "Ingresos, pérdida operativa y capex de 2025 leídos en el folleto S-1 de SpaceX en la SEC; el gasto operativo es un cálculo (ingresos + pérdida). Cifras de 2026 leídas en el comunicado de resultados del 3.er trimestre de SpaceX (PDF oficial). La valoración de 250.000 M$ en la fusión se leyó en CNBC. La capitalización de SPCX se leyó en Yahoo Finance el 30-10-2026. Ojo: el segmento incluye X (antes Twitter) y, desde agosto de 2026, Cursor, así que no es solo xAI."
+      "verificacion": "Ingresos, pérdida operativa y capex de 2025 leídos en el folleto S-1 de SpaceX en la SEC; el gasto operativo es un cálculo (ingresos + pérdida). Cifras de 2026 leídas en el comunicado de resultados del 3.er trimestre de SpaceX (PDF oficial). La valoración de 250.000 M$ en la fusión se leyó en CNBC. La capitalización de SPCX se leyó en Yahoo Finance el 30-10-2026. Ojo: el segmento incluye X (antes Twitter) y, desde agosto de 2026, Cursor, así que no es solo xAI. No hay flujo de caja publicado en estas fuentes, así que no se muestra FCF (sólo resultado operativo)."
     }
   ]
 }

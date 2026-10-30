@@ -11,11 +11,11 @@
       cards.sort(function (a, b) {
         if (k === "az") return a.dataset.nombre.localeCompare(b.dataset.nombre, "es");
         var x = num(a, k), y = num(b, k);
-        if (k === "per") { if (!(x > 0)) x = NaN; if (!(y > 0)) y = NaN; }
+        if (k === "p_fcf") { if (!(x > 0)) x = NaN; if (!(y > 0)) y = NaN; }
         if (isNaN(x) && isNaN(y)) return 0;
         if (isNaN(x)) return 1;
         if (isNaN(y)) return -1;
-        return k === "per" ? x - y : y - x;
+        return k === "p_fcf" ? x - y : y - x;
       });
       cards.forEach(function (el) { cont.appendChild(el); });
     });

@@ -1,13 +1,13 @@
 # Big Tech
 
-Ingresos, beneficio neto, margen neto, PER y gasto en capex de las 7 magníficas, los laboratorios de IA y otras grandes tecnológicas, con fuentes. Hecho en Python. Forma parte de [Sharpe Lab](https://davizz-dev13.github.io/sharpe-lab/).
+Ingresos, flujo de caja libre (FCF), margen FCF, precio / FCF y gasto en capex de las 7 magníficas, los laboratorios de IA y otras grandes tecnológicas, con fuentes. Hecho en Python. Forma parte de [Sharpe Lab](https://davizz-dev13.github.io/sharpe-lab/).
 
 **Web:** https://davizz-dev13.github.io/big-tech/
 
-- **Tarjetas** por empresa, sencillas: nombre y logo, margen neto, PER y tres barras a la misma escala dentro de la tarjeta: **gasto en capex**, **ingresos** y **beneficio neto** (en rojo si hay pérdidas). Cifras de los últimos 12 meses, en formato corto («471 mil M$»).
-- **Ordenar** por ingresos, beneficio neto, margen neto, PER, gasto en capex o A–Z.
+- **Tarjetas** por empresa, sencillas: nombre y logo, margen FCF, precio / FCF y tres barras a la misma escala dentro de la tarjeta: **gasto en capex**, **ingresos** y **flujo de caja libre (FCF)** (en rojo, a la izquierda de la línea del cero, si es negativo). Cifras de los últimos 12 meses, en formato corto («471 mil M$»).
+- **Ordenar** por ingresos, FCF, margen FCF, precio / FCF (menor primero; «n. s.» al final), gasto en capex o A–Z.
 - **Laboratorios de IA** (OpenAI, Anthropic, xAI): no cotizan, así que sus cifras de 2025 salen de folletos ante la SEC o de prensa, con fuente y fecha. Se mantienen a mano en [`datos/labs_ia.json`](datos/labs_ia.json).
-- **Fuentes y metodología** al final de la página. `datos.json` lleva además el resto de métricas (caja libre, capex / caja operativa, capitalización, histórico).
+- **Fuentes y metodología** al final de la página. `datos.json` lleva además el resto de métricas (beneficio neto, margen neto, PER, capex / caja operativa, capitalización, histórico).
 
 ## Datos
 
@@ -19,7 +19,7 @@ Ingresos, beneficio neto, margen neto, PER y gasto en capex de las 7 magníficas
 | Capitalización en dólares, país y logotipos | [companiesmarketcap.com](https://companiesmarketcap.com/) (CSV del ranking mundial) |
 | Laboratorios de IA | Folletos S-1 / F-1 en la SEC y prensa, enlazados uno a uno en `datos/labs_ia.json` |
 
-- **Últimos 12 meses** = suma de los cuatro últimos trimestres publicados por cada empresa. **Rentable** = beneficio neto atribuible a los accionistas positivo. **Caja libre (FCF)** = flujo operativo − capex. **PER** = capitalización / beneficio neto de 12 meses, todo en dólares.
+- **Últimos 12 meses** = suma de los cuatro últimos trimestres publicados por cada empresa. **Rentable** = beneficio neto atribuible a los accionistas positivo. **Caja libre (FCF)** = flujo operativo − capex. **PER** = capitalización / beneficio neto de 12 meses (sólo en `datos.json`). **Margen FCF** = FCF / ingresos. **Precio / FCF** = capitalización / FCF; con FCF ≤ 0 no hay múltiplo («n. s.»). Todo en dólares.
 - **Divisas**: las cuentas en otra moneda (TWD, KRW, CNY, EUR) se pasan a dólares con la media de los cierres diarios de los 12 meses que cubren. El cambio frente a hace un año se calcula en la moneda original, así que la divisa no lo distorsiona.
 - **Hace un año**: si Yahoo tiene la cifra de 12 meses que acaba justo un año antes (±45 días) se compara con ella; si no, se compara el último ejercicio anual con el anterior, y la tarjeta lo indica.
 - **Nunca se rellena un número**: si falta un dato se muestra «—» y se apunta en el log y en la web. Si Yahoo no da el capex de 12 meses pero sí el flujo operativo y el FCF, se calcula como diferencia y se avisa.

@@ -34,8 +34,10 @@
 .bt-barras{display:grid;gap:5px}
 .bt-b{display:grid;grid-template-columns:104px 1fr 90px;align-items:center;gap:8px;font-size:13.5px;line-height:1.25}
 .bt-b .et{color:var(--muted);white-space:nowrap}
-.bt-b .pista{height:10px;background:var(--pista);border-radius:5px;overflow:hidden}
-.bt-b .pista i{display:block;height:100%;border-radius:5px}
+.bt-b .pista{position:relative;height:10px;background:var(--pista);border-radius:5px;overflow:hidden}
+.bt-b .pista i{position:absolute;top:0;bottom:0;display:block;border-radius:5px}
+.bt-b .pista s{position:absolute;top:-2px;bottom:-2px;width:2px;margin-left:-1px;background:var(--muted);z-index:1}
+.bt-pie{margin:6px 0 0;font-size:12.5px;color:var(--muted)}
 i.gasto{background:var(--gasto)}i.ing{background:var(--ing)}i.ben{background:var(--ben)}i.ben.neg{background:var(--perd)}
 .bt-b .v{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
 

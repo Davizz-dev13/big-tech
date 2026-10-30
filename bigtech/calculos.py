@@ -47,6 +47,9 @@ def metricas(e) -> dict:
         "capex_ocf": capex / ocf if capex is not None and ocf and ocf > 0 else None,
         "capex_fcf": capex / fcf if capex is not None and fcf and fcf > 0 else None,
         "per": e.cap / beneficio if e.cap and beneficio and beneficio > 0 else None,
+        # Lo que enseña la tarjeta: flujo de caja libre (FCF = flujo operativo − capex).
+        "margen_fcf": fcf / ingresos if ingresos and fcf is not None else None,
+        "p_fcf": e.cap / fcf if e.cap and fcf and fcf > 0 else None,   # FCF ≤ 0 → sin múltiplo (n. s.)
         "rentable": None if beneficio is None else beneficio > 0,
         "derivado": derivado,
     }

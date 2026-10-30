@@ -1,4 +1,4 @@
-"""Genera «Big Tech: ¿rentable?»: descarga los datos, calcula, dibuja y escribe la web.
+"""Genera «Big Tech»: descarga los datos, calcula, dibuja y escribe la web.
 
 Uso:
     python build.py                       # descarga datos reales y genera _site/
@@ -54,10 +54,26 @@ def _cambio_txt(ahora, antes, r):
 
 
 def barras(trio) -> list[dict]:
-    """Tres barras (gasto, ingresos, beneficio) a escala común dentro de la tarjeta."""
-    tope = max([abs(v) for _, _, v in trio if v is not None] + [0]) or 1
-    return [{"etiqueta": et, "clase": cl, "texto": F.corto(v), "neg": v is not None and v < 0,
-             "ancho": None if v is None else max(abs(v) / tope * 100, 0.8)} for et, cl, v in trio]
+    """Tres barras (gasto, ingresos, FCF) a escala común dentro de la tarjeta.
+
+    Si alguna cifra es negativa, la escala va de la más negativa a la más positiva: el cero queda en
+    `cero` (% desde la izquierda), las positivas crecen a la derecha y las negativas a la izquierda.
+    """
+    vals = [v for _, _, v in trio if v is not None]
+    pos = max([v for v in vals if v > 0] + [0])
+    neg = max([-v for v in vals if v < 0] + [0])
+    total = (pos + neg) or 1
+    cero = neg / total * 100
+    out = []
+    for et, cl, v in trio:
+        b = {"etiqueta": et, "clase": cl, "texto": F.corto(v), "neg": v is not None and v < 0,
+             "cero": cero, "ancho": None, "izq": None}
+        if v is not None:
+            ancho = max(abs(v) / total * 100, 0.8)
+            b["ancho"] = ancho
+            b["izq"] = max(cero - ancho, 0) if v < 0 else cero
+        out.append(b)
+    return out
 
 
 def fila(e, m) -> dict:
@@ -109,16 +125,16 @@ def fila(e, m) -> dict:
                                         m.get("capex_antes"), m.get("capex_cambio")),
         },
         "v": {  # valores para ordenar
-            "cap": m["cap"], "ingresos": m["ingresos"], "beneficio": m["beneficio"], "margen": m["margen"],
-            "capex": m["capex"], "fcf": m["fcf"], "capex_ocf": m["capex_ocf"], "per": m["per"],
+            "ingresos": m["ingresos"], "fcf": m["fcf"], "margen_fcf": m["margen_fcf"], "p_fcf": m["p_fcf"],
+            "capex": m["capex"],
         },
         "c": {  # textos cortos de la tarjeta
-            "ingresos": F.corto(m["ingresos"]), "beneficio": F.corto(m["beneficio"]), "capex": F.corto(m["capex"]),
-            "margen": F.pct(m["margen"], 1),
-            "per": F.per(m["per"]) if m["per"] is not None else ("pérdidas" if m["rentable"] is False else "—"),
+            "ingresos": F.corto(m["ingresos"]), "fcf": F.corto(m["fcf"]), "capex": F.corto(m["capex"]),
+            "margen_fcf": F.pct(m["margen_fcf"], 1),
+            "p_fcf": F.per(m["p_fcf"]) if m["p_fcf"] is not None else ("n. s." if m["fcf"] is not None else "—"),
         },
         "barras": barras([("Gasto en capex", "gasto", m["capex"]), ("Ingresos", "ing", m["ingresos"]),
-                          ("Beneficio neto", "ben", m["beneficio"])]),
+                          ("FCF", "ben", m["fcf"])]),
         "barra_capex": min(m["capex_ocf"], 1.5) / 1.5 * 100 if m["capex_ocf"] is not None else None,
         "capex_ocf_raw": m["capex_ocf"],
         "fcf_neg": m["fcf"] is not None and m["fcf"] < 0,
@@ -139,14 +155,20 @@ def lab(d: dict) -> dict:
     r = d.get("resultado_anual") or {}
     val = lambda k: (d.get(k) or {}).get("valor")
     ing, gas, res = val("ingresos_anual"), val("gasto_anual"), val("resultado_anual")
+    # FCF sólo si la fuente lo publica (o publica flujo operativo y capex); si no, el resultado operativo, rotulado.
+    fcf = val("fcf_anual")
+    tercera = ("FCF", "ben", fcf) if fcf is not None else ("Resultado op.", "ben", res)
+    base = fcf if fcf is not None else res
     return {
         "barras": barras([("Gasto en capex" if "capex" in ((d.get("gasto_anual") or {}).get("etiqueta") or "").lower()
-                           else "Gasto total", "gasto", gas), ("Ingresos", "ing", ing), ("Resultado op.", "ben", res)]),
-        "margen": F.pct(res / ing, 0) if ing and res is not None else "—",
+                           else "Gasto total", "gasto", gas), ("Ingresos", "ing", ing), tercera]),
+        "con_fcf": fcf is not None,
+        "margen_et": "Margen FCF" if fcf is not None else "Margen op.",
+        "margen": F.pct(base / ing, 0) if ing and base is not None else "—",
         "fuente_corta": (d.get("ingresos_anual") or {}).get("fuente", ""),
         "id": d["id"], "nombre": d["nombre"], "estado": d.get("estado", ""), "nota": d.get("nota", ""),
         "rentable": None if r.get("valor") is None else r["valor"] > 0, "periodo": r.get("periodo", ""),
-        "principales": [item(d.get(k)) for k in ("ingresos_anual", "gasto_anual", "resultado_anual", "ingresos_run_rate", "valoracion")
+        "principales": [item(d.get(k)) for k in ("ingresos_anual", "gasto_anual", "fcf_anual", "resultado_anual", "ingresos_run_rate", "valoracion")
                         if d.get(k) and not d[k].get("calculado")],
         "otros": [item(o) for o in d.get("otros", []) if not o.get("calculado")], "verificacion": d.get("verificacion", ""),
     }
@@ -163,13 +185,13 @@ def construir(empresas, salida: Path, meta: dict) -> dict:
     m7 = ag["mag7"]
     serie = C.serie_grupo([(e, metr[e.ticker]) for e in empresas if e.grupo == "mag7"])
 
-    # Barras ingresos vs beneficio, en escala común dentro de cada grupo
+    # Barras ingresos vs FCF, en escala común dentro de cada grupo
     for g, fs in por_grupo.items():
         tope = max((f["v"]["ingresos"] or 0) for f in fs) or 1
         for f in fs:
             if f["v"]["ingresos"]:
                 f["barra_ing"] = f["v"]["ingresos"] / tope * 100
-                f["barra_ben"] = abs(f["v"]["beneficio"] or 0) / tope * 100
+                f["barra_ben"] = abs(f["v"]["fcf"] or 0) / tope * 100
 
     # ── El titular: se decide con los datos ──
     nombres = {e.ticker: e.nombre for e in empresas}

@@ -38,6 +38,8 @@ def test_metricas_basicas():
     assert abs(m["margen"] - 0.2) < 1e-12
     assert m["per"] == 20.0
     assert m["rentable"] is True
+    assert abs(m["margen_fcf"] - 0.2) < 1e-12   # FCF / ingresos
+    assert m["p_fcf"] == 20.0                   # capitalización / FCF
 
 
 def test_conversion_de_moneda_y_capex_derivado():
@@ -47,6 +49,8 @@ def test_conversion_de_moneda_y_capex_derivado():
     assert m["derivado"] == ["capex"]
     assert m["rentable"] is False and m["per"] is None
     assert m["capex_fcf"] is None             # sin FCF positivo no hay ratio
+    assert m["p_fcf"] is None                 # FCF negativo: nunca un múltiplo negativo
+    assert abs(m["margen_fcf"] - (-0.1)) < 1e-12
 
 
 def test_hace_un_año():
