@@ -53,6 +53,13 @@ def _cambio_txt(ahora, antes, r):
     return F.pct(r, 0, signo=True)
 
 
+def barras(trio) -> list[dict]:
+    """Tres barras (gasto, ingresos, beneficio) a escala común dentro de la tarjeta."""
+    tope = max([abs(v) for _, _, v in trio if v is not None] + [0]) or 1
+    return [{"etiqueta": et, "clase": cl, "texto": F.corto(v), "neg": v is not None and v < 0,
+             "ancho": None if v is None else max(abs(v) / tope * 100, 0.8)} for et, cl, v in trio]
+
+
 def fila(e, m) -> dict:
     pais_es, bandera = PZ.pais(e.pais)
     tc = e.tc_info or {}
@@ -105,6 +112,13 @@ def fila(e, m) -> dict:
             "cap": m["cap"], "ingresos": m["ingresos"], "beneficio": m["beneficio"], "margen": m["margen"],
             "capex": m["capex"], "fcf": m["fcf"], "capex_ocf": m["capex_ocf"], "per": m["per"],
         },
+        "c": {  # textos cortos de la tarjeta
+            "ingresos": F.corto(m["ingresos"]), "beneficio": F.corto(m["beneficio"]), "capex": F.corto(m["capex"]),
+            "margen": F.pct(m["margen"], 1),
+            "per": F.per(m["per"]) if m["per"] is not None else ("pérdidas" if m["rentable"] is False else "—"),
+        },
+        "barras": barras([("Gasto en capex", "gasto", m["capex"]), ("Ingresos", "ing", m["ingresos"]),
+                          ("Beneficio neto", "ben", m["beneficio"])]),
         "barra_capex": min(m["capex_ocf"], 1.5) / 1.5 * 100 if m["capex_ocf"] is not None else None,
         "capex_ocf_raw": m["capex_ocf"],
         "fcf_neg": m["fcf"] is not None and m["fcf"] < 0,
@@ -123,7 +137,13 @@ def lab(d: dict) -> dict:
                 "fecha": F.fecha(x["fecha"]) if x.get("fecha") else "", "calculado": x.get("calculado", False),
                 "texto": x.get("texto")}
     r = d.get("resultado_anual") or {}
+    val = lambda k: (d.get(k) or {}).get("valor")
+    ing, gas, res = val("ingresos_anual"), val("gasto_anual"), val("resultado_anual")
     return {
+        "barras": barras([("Gasto en capex" if "capex" in ((d.get("gasto_anual") or {}).get("etiqueta") or "").lower()
+                           else "Gasto total", "gasto", gas), ("Ingresos", "ing", ing), ("Resultado op.", "ben", res)]),
+        "margen": F.pct(res / ing, 0) if ing and res is not None else "—",
+        "fuente_corta": (d.get("ingresos_anual") or {}).get("fuente", ""),
         "id": d["id"], "nombre": d["nombre"], "estado": d.get("estado", ""), "nota": d.get("nota", ""),
         "rentable": None if r.get("valor") is None else r["valor"] > 0, "periodo": r.get("periodo", ""),
         "principales": [item(d.get(k)) for k in ("ingresos_anual", "gasto_anual", "resultado_anual", "ingresos_run_rate", "valoracion")
@@ -183,10 +203,6 @@ def construir(empresas, salida: Path, meta: dict) -> dict:
 
     sectores = sorted({f["sector"] for f in filas})
     paises = sorted({f["pais"] for f in filas})
-    figs = {
-        "evolucion": json.loads(G.evolucion(serie, m7, "Últ. 12 m").to_json()),
-        "capex_caja": json.loads(G.capex_sobre_caja([{"nombre": e.nombre, **metr[e.ticker]} for e in empresas]).to_json()),
-    }
     faltas = [(f["nombre"], f["faltan"]) for f in filas if f["faltan"]]
     for nombre, fs in faltas:
         log.warning("Faltan datos de %s: %s", nombre, ", ".join(fs))
@@ -202,8 +218,9 @@ def construir(empresas, salida: Path, meta: dict) -> dict:
         otras=ag["otras"], otras_t={k: F.dinero(ag["otras"][k]) for k in ("capex", "fcf", "beneficio", "ingresos")},
         grupos=[(g, nombre, por_grupo[g]) for g, nombre, _ in U.GRUPOS],
         labs=labs, labs_actualizado=F.fecha(labs_json["actualizado"]), labs_metodo=labs_json.get("metodo", ""),
-        sectores=sectores, paises=paises, figs=json.dumps(figs, separators=(",", ":")),
-        plotly_js=f"https://cdn.plot.ly/plotly-{plotly.offline.get_plotlyjs_version()}.min.js",
+        sectores=sectores, paises=paises,
+        tot={k: F.corto(m7[k]) for k in ("ingresos", "beneficio", "capex")},
+        fecha_corta=f"{F.fecha(am)}, {am:%H:%M}",
         origen_ranking=meta.get("ranking", ""), faltas=faltas, n=len(empresas),
         tcs=sorted({(e.moneda, F.num(e.tipo_cambio, 5 if e.tipo_cambio < 0.01 else 4), e.tc_info.get("dias"),
                      F.fecha(e.tc_info["desde"]), F.fecha(e.tc_info["hasta"]))

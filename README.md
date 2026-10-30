@@ -1,17 +1,13 @@
-# Big Tech: ¿rentable?
+# Big Tech
 
-¿Les sale a cuenta la IA a las grandes tecnológicas? Capex, caja libre y beneficio de las 7 magníficas, los laboratorios de IA y otras grandes tecnológicas, con fuentes. Hecho en Python. Forma parte de [Sharpe Lab](https://davizz-dev13.github.io/sharpe-lab/).
+Ingresos, beneficio neto, margen neto, PER y gasto en capex de las 7 magníficas, los laboratorios de IA y otras grandes tecnológicas, con fuentes. Hecho en Python. Forma parte de [Sharpe Lab](https://davizz-dev13.github.io/sharpe-lab/).
 
 **Web:** https://davizz-dev13.github.io/big-tech/
 
-Inspirado en [isaiprofitable.com](https://isaiprofitable.com/), que mide sólo el gasto y el ingreso de IA de cada empresa. Aquí se mira la empresa entera: cuánto invierte (capex), cuánta caja le queda libre y cuánto gana.
-
-- **Titular**: la respuesta (sale de los datos con una regla fija: «De momento, sí» si las 7 tienen beneficio y su caja libre conjunta es positiva; «A medias» si la caja es positiva pero alguna pierde dinero; «No» si la caja libre conjunta es negativa) y avisos automáticos (quién quema caja, quién dedica más del 75 % de su caja al capex, cuánto ha crecido el capex).
-- **Cifras de las 7** de los últimos 12 meses y un **contador** del capex gastado desde que abres la página (estimación: capex anual repartido por igual).
-- **Tarjetas** por empresa: capex, caja libre (FCF), capex / caja operativa, capex / FCF, FCF frente a hace un año, ingresos, beneficio neto, margen, PER, capitalización y la etiqueta **SÍ/NO rentable**. Toca una tarjeta para ver el minigráfico de capex y caja libre por año, las notas (divisa, datos que faltan) y los enlaces a las fuentes.
-- **Ordenar** por capitalización, capex, capex / caja, FCF, beneficio, margen, ingresos, PER o A–Z, y **filtrar** por sector o país.
-- **Laboratorios de IA** (OpenAI, Anthropic, xAI): no cotizan, así que sus cifras salen de folletos ante la SEC o de prensa, con fuente y fecha. Se mantienen a mano en [`datos/labs_ia.json`](datos/labs_ia.json).
-- Dos gráficos de Plotly: capex, caja libre y beneficio de las 7 por año fiscal, y el capex como % de la caja operativa de cada empresa.
+- **Tarjetas** por empresa, sencillas: nombre y logo, margen neto, PER y tres barras a la misma escala dentro de la tarjeta: **gasto en capex**, **ingresos** y **beneficio neto** (en rojo si hay pérdidas). Cifras de los últimos 12 meses, en formato corto («471 mil M$»).
+- **Ordenar** por ingresos, beneficio neto, margen neto, PER, gasto en capex o A–Z.
+- **Laboratorios de IA** (OpenAI, Anthropic, xAI): no cotizan, así que sus cifras de 2025 salen de folletos ante la SEC o de prensa, con fuente y fecha. Se mantienen a mano en [`datos/labs_ia.json`](datos/labs_ia.json).
+- **Fuentes y metodología** al final de la página. `datos.json` lleva además el resto de métricas (caja libre, capex / caja operativa, capitalización, histórico).
 
 ## Datos
 
@@ -48,16 +44,16 @@ python -m http.server -d _site 8000  # abre http://localhost:8000
 ## Estructura
 
 ```
-build.py               orquesta todo: descarga, cálculos, gráficos y página
+build.py               orquesta todo: descarga, cálculos y página
 bigtech/universo.py    qué empresas salen y por qué (edítalo para añadir o quitar)
 bigtech/fuentes.py     companiesmarketcap + Yahoo Finance (curl_cffi)
 bigtech/calculos.py    paso a dólares, ratios, hace un año y agregados
-bigtech/graficos.py    figuras de Plotly y minigráficos SVG
+bigtech/graficos.py    figuras de Plotly y minigráficos SVG (no se usan en la página actual)
 bigtech/formato.py     números a la española
 bigtech/paises.py      países, banderas y sectores en español
 datos/labs_ia.json     cifras de OpenAI, Anthropic y xAI con sus fuentes (a mano)
 plantillas/index.html  plantilla Jinja
-estatico/              CSS, el JavaScript mínimo (ordenar, filtrar, contador) y el favicon
+estatico/              CSS, el JavaScript mínimo (ordenar) y el favicon
 tests/                 pruebas (pytest)
 ```
 

@@ -37,6 +37,22 @@ def dinero(x: float | None) -> str:
     return f"{s}{num(a, 0)} $"
 
 
+def corto(x: float | None) -> str:
+    """Formato corto para las tarjetas: 471 mil M$ · 45,3 mil M$ · 850 M$ · 1,2 bill. $."""
+    if x is None:
+        return "—"
+    s = MENOS if x < 0 else ""
+    a = abs(x)
+    if a >= 1e12:
+        return f"{s}{num(a / 1e12, 1)} bill. $"
+    if a >= 1e9:
+        v = a / 1e9
+        return f"{s}{num(v, 0 if round(v, 1) >= 100 else 1)} mil M$"
+    if a >= 1e6:
+        return f"{s}{num(a / 1e6, 0)} M$"
+    return f"{s}{num(a, 0)} $"
+
+
 def veces(x: float | None) -> str:
     return "—" if x is None else f"{num(x, 1)}×"
 

@@ -3,147 +3,72 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Big Tech: ¿rentable? · Sharpe Lab</title>
-<meta name="description" content="¿Les sale a cuenta la IA a las grandes tecnológicas? Capex, caja libre, beneficio y márgenes de las 7 magníficas, los laboratorios de IA y otras {{ otras.n }} tecnológicas, con fuentes. Se actualiza solo.">
+<title>Big Tech · Sharpe Lab</title>
+<meta name="description" content="Ingresos, beneficio neto, margen, PER y gasto en capex de las 7 magníficas, los laboratorios de IA y otras {{ otras.n }} tecnológicas, con fuentes. Se actualiza sola.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="canonical" href="https://davizz-dev13.github.io/big-tech/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Sharpe Lab">
-<meta property="og:title" content="Big Tech: ¿rentable? · Sharpe Lab">
-<meta property="og:description" content="Capex, caja libre y beneficio de las grandes tecnológicas y los laboratorios de IA.">
+<meta property="og:title" content="Big Tech · Sharpe Lab">
+<meta property="og:description" content="Ingresos, beneficio y gasto en capex de las grandes tecnológicas y los laboratorios de IA.">
 <meta property="og:url" content="https://davizz-dev13.github.io/big-tech/">
 <link rel="stylesheet" href="https://davizz-dev13.github.io/sharpe-lab/theme.css">
 <link rel="stylesheet" href="estilos.css?v={{ version }}">
 <script src="https://davizz-dev13.github.io/sharpe-lab/site.js"></script>
-<script src="{{ plotly_js }}" defer></script>
 <script src="app.js?v={{ version }}" defer></script>
 </head>
 <body class="has-topnav bt">
-<nav class="topnav" aria-label="Principal"><div class="nav-in"><a class="nav-name" href="/sharpe-lab/">Sharpe Lab</a><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu"><span class="nav-burger" aria-hidden="true"></span>Menú</button><div class="nav-links" id="nav-menu"><div class="nav-group"><button class="nav-gbtn" type="button" aria-expanded="false">Estrategias</button><div class="nav-sub"><a href="/sharpe-lab/btc/">Bitcoin</a><a href="/sharpe-lab/semis/">Semis</a><a href="/sharpe-lab/mag7/">Mag7</a><a href="/sharpe-lab/msci/">MSCI World</a><a href="/sharpe-lab/rsi30/">RSI 30</a></div></div><div class="nav-group has-on"><button class="nav-gbtn" type="button" aria-expanded="false">Herramientas</button><div class="nav-sub"><a href="/market-screen/">Market Screen</a><a href="/big-tech/" aria-current="page">Big Tech: ¿rentable?</a><a href="/sharpe-lab/optimizador/">Optimizador CVaR</a><a href="/sharpe-lab/interes/">Interés compuesto</a><a href="/sharpe-lab/deudas/">Deudas BTC</a></div></div><a href="/sharpe-lab/metodologia/">Metodología</a><a href="/sharpe-lab/sobre-mi/">Sobre mí</a><a class="lab" href="https://davizz-dev13.github.io/">David Gallardo</a></div></div></nav>
+<nav class="topnav" aria-label="Principal"><div class="nav-in"><a class="nav-name" href="/sharpe-lab/">Sharpe Lab</a><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu"><span class="nav-burger" aria-hidden="true"></span>Menú</button><div class="nav-links" id="nav-menu"><div class="nav-group"><button class="nav-gbtn" type="button" aria-expanded="false">Estrategias</button><div class="nav-sub"><a href="/sharpe-lab/btc/">Bitcoin</a><a href="/sharpe-lab/semis/">Semis</a><a href="/sharpe-lab/mag7/">Mag7</a><a href="/sharpe-lab/msci/">MSCI World</a><a href="/sharpe-lab/rsi30/">RSI 30</a></div></div><div class="nav-group has-on"><button class="nav-gbtn" type="button" aria-expanded="false">Herramientas</button><div class="nav-sub"><a href="/market-screen/">Market Screen</a><a href="/big-tech/" aria-current="page">Big Tech</a><a href="/sharpe-lab/optimizador/">Optimizador CVaR</a><a href="/sharpe-lab/interes/">Interés compuesto</a><a href="/sharpe-lab/deudas/">Deudas BTC</a></div></div><a href="/sharpe-lab/metodologia/">Metodología</a><a href="/sharpe-lab/sobre-mi/">Sobre mí</a><a class="lab" href="https://davizz-dev13.github.io/">David Gallardo</a></div></div></nav>
 
-<header class="bt-hero">
-  <p class="bt-kicker">Big Tech: ¿rentable?</p>
-  <h1>¿Les sale a cuenta la IA?</h1>
-  <p class="bt-answer {{ clase }}">{{ respuesta }}<span class="dot">.</span></p>
-  <p class="sub">Las 7 magníficas han gastado <b>{{ m7.capex }}</b> en capex (centros de datos, chips, redes) en los últimos 12 meses: el <b>{{ m7_capex_ocf }}</b> de la caja que genera su negocio. Aun así ganaron <b>{{ m7.beneficio }}</b> y les quedaron <b>{{ m7.fcf }}</b> de caja libre.</p>
-  {% if avisos %}<ul class="bt-avisos">{% for a in avisos %}<li>{{ a }}</li>{% endfor %}</ul>{% endif %}
-  <p class="fresh">{{ sello }}</p>
-</header>
-
-<main id="contenido">
-  <section class="bt-kpis" aria-label="Las 7 magníficas en cifras (últimos 12 meses)">
-    <div class="kpi"><span class="k">Capex</span><b>{{ m7.capex }}</b><span class="s">{{ m7_capex_ocf }} de la caja operativa</span></div>
-    <div class="kpi"><span class="k">Caja libre (FCF)</span><b class="{{ 'neg' if m7.fcf.startswith('−') else '' }}">{{ m7.fcf }}</b><span class="s">capex = {{ m7_capex_fcf }} el FCF</span></div>
-    <div class="kpi"><span class="k">Beneficio neto</span><b>{{ m7.beneficio }}</b><span class="s">margen {{ m7_margen }}</span></div>
-    <div class="kpi"><span class="k">Ingresos</span><b>{{ m7.ingresos }}</b><span class="s">capitalización {{ m7.cap }}</span></div>
-  </section>
-  <section class="bt-live" aria-label="Contador">
-    <span class="k">Capex de las 7 desde que abriste esta página<sup>*</sup></span>
-    <b id="contador" data-ritmo="{{ capex_por_segundo }}">0 $</b>
-    <span class="s"><sup>*</sup> Estimación: su capex de los últimos 12 meses repartido por igual, {{ capex_seg_txt }} $ por segundo.</span>
+<main id="contenido" class="bt-main">
+  <section class="bt-hero" aria-labelledby="t-top">
+    <h1 id="t-top">Big Tech</h1>
+    <p class="bt-fecha">Últimos 12 meses · datos a {{ fecha_corta }}</p>
   </section>
 
-  <section class="bt-sec" aria-labelledby="t-evo">
-    <h2 id="t-evo">El capex sube, la caja libre no</h2>
-    <p class="bt-nota">Suma de las 7 magníficas por año fiscal{% if años_serie %} ({{ años_serie[0] }}–{{ años_serie[-1] }}){% endif %} y últimos 12 meses, en miles de millones de dólares.</p>
-    <div id="g-evolucion" class="bt-graf" role="img" aria-label="Capex, caja libre y beneficio de las 7 magníficas por año"></div>
-  </section>
-
-  <div class="bt-controles" role="group" aria-label="Ordenar y filtrar">
-    <label><span class="bt-et">Ordenar por</span>
+  <div class="bt-controles">
+    <label>Ordenar por
       <select id="orden">
-        <option value="cap">Capitalización</option>
-        <option value="capex">Capex</option>
-        <option value="capex_ocf">Capex / caja operativa</option>
-        <option value="fcf">Caja libre (FCF)</option>
+        <option value="ingresos">Ingresos</option>
         <option value="beneficio">Beneficio neto</option>
         <option value="margen">Margen neto</option>
-        <option value="ingresos">Ingresos</option>
-        <option value="per">PER (de menor a mayor)</option>
+        <option value="per">PER (menor primero)</option>
+        <option value="capex">Gasto en capex</option>
         <option value="az">A–Z</option>
       </select></label>
-    <label><span class="bt-et">Sector</span>
-      <select id="f-sector"><option value="">Todos</option>{% for s in sectores %}<option>{{ s }}</option>{% endfor %}</select></label>
-    <label><span class="bt-et">País</span>
-      <select id="f-pais"><option value="">Todos</option>{% for p in paises %}<option>{{ p }}</option>{% endfor %}</select></label>
+    <p class="bt-ley" aria-hidden="true"><span><i class="gasto"></i>Gasto en capex</span><span><i class="ing"></i>Ingresos</span><span><i class="ben"></i>Beneficio</span></p>
   </div>
 
+  {% macro barras(bs) %}
+    <div class="bt-barras">
+      {% for b in bs %}<div class="bt-b"><span class="et">{{ b.etiqueta }}</span><span class="pista">{% if b.ancho is not none %}<i class="{{ b.clase }}{% if b.neg %} neg{% endif %}" style="width:{{ '%.1f' % b.ancho }}%"></i>{% endif %}</span><span class="v{% if b.neg %} rojo{% endif %}">{{ b.texto }}</span></div>{% endfor %}
+    </div>
+  {% endmacro %}
+
   {% macro tarjeta(f) %}
-  <article class="bt-card{% if f.rentable is false %} pierde{% endif %}" data-nombre="{{ f.nombre }}" data-sector="{{ f.sector }}" data-pais="{{ f.pais }}"{% for k, v in f.v.items() %} data-{{ k }}="{{ v if v is not none else '' }}"{% endfor %}>
-    <details>
-      <summary>
-        <div class="bt-cab">
-          {% if f.logo %}<img class="bt-logo" src="{{ f.logo }}" alt="" width="40" height="40">{% else %}<span class="bt-logo bt-ini" aria-hidden="true">{{ f.inicial }}</span>{% endif %}
-          <div class="bt-nom"><h3>{{ f.nombre }}</h3><span class="bt-meta"><span class="tk">{{ f.ticker }}</span> · <span title="{{ f.pais }}">{{ f.bandera }}</span> {{ f.pais }} · {{ f.industria or f.sector }}</span></div>
-          <span class="bt-badge {{ 'si' if f.rentable else ('no' if f.rentable is false else 'nd') }}" title="Beneficio neto de los últimos 12 meses {{ 'positivo' if f.rentable else 'negativo' }}"><small>Rentable</small>{{ 'SÍ' if f.rentable else ('NO' if f.rentable is false else '—') }}</span>
-        </div>
-        <div class="bt-duo">
-          <div><span class="k">Capex 12 m</span><b>{{ f.t.capex }}</b></div>
-          <div><span class="k">Caja libre 12 m</span><b class="{{ 'neg' if f.fcf_neg else '' }}">{{ f.t.fcf }}</b></div>
-        </div>
-        {% if f.barra_capex is not none %}
-        <div class="bt-barra" aria-hidden="true"><span class="lleno{% if f.capex_ocf_raw >= 1 %} sobre{% elif f.capex_ocf_raw >= 0.75 %} alto{% endif %}" style="width:{{ '%.1f' % f.barra_capex }}%"></span><span class="tope" style="left:{{ '%.2f' % (100/1.5) }}%"></span></div>
-        <p class="bt-barra-txt">El capex se lleva el <b>{{ f.t.capex_ocf }}</b> de la caja operativa{% if f.capex_ocf_raw >= 1 %}: gasta más de lo que genera{% endif %}.</p>
-        {% endif %}
-        <dl class="bt-grid">
-          <div><dt>Ingresos</dt><dd>{{ f.t.ingresos }}</dd></div>
-          <div><dt>Beneficio neto</dt><dd class="{{ 'neg' if f.rentable is false else '' }}">{{ f.t.beneficio }}</dd></div>
-          <div><dt>Margen neto</dt><dd>{{ f.t.margen }}</dd></div>
-          <div><dt>Capex / FCF</dt><dd>{{ f.t.capex_fcf }}</dd></div>
-          <div><dt>{{ f.t.tend_et }}</dt><dd class="{{ 'neg' if f.t.tend_corto.startswith('−') or 'negativo' in f.t.tend_corto else '' }}">{{ f.t.tend_corto }}</dd></div>
-          <div><dt>PER</dt><dd>{{ f.t.per }}</dd></div>
-        </dl>
-        {% if f.barra_ing is not none %}
-        <div class="bt-ib" aria-hidden="true"><span class="ing" style="width:{{ '%.1f' % f.barra_ing }}%"></span><span class="ben{% if f.rentable is false %} neg{% endif %}" style="width:{{ '%.1f' % f.barra_ben }}%"></span></div>
-        <p class="bt-ib-txt"><i class="c-ing"></i>ingresos <i class="c-ben"></i>beneficio · capitalización {{ f.t.cap }}</p>
-        {% endif %}
-        <span class="bt-mas">Detalle y fuentes</span>
-      </summary>
-      <div class="bt-detalle">
-        <div class="bt-minibox">{{ f.mini | safe }}<p class="bt-ley"><i class="c-capex"></i>capex <i class="c-fcf"></i>caja libre · por ejercicio y últimos 12 m</p></div>
-        <ul class="bt-lineas">
-          <li>Flujo de caja operativo 12 m: <b>{{ f.t.ocf }}</b></li>
-          <li>{{ f.t.tend }}</li>
-          <li>Capex frente al año anterior: <b>{{ f.t.capex_cambio }}</b></li>
-          <li>Cuentas hasta: {{ f.fecha }}{% if f.moneda %} · publicadas en {{ f.moneda }}{% endif %}</li>
-        </ul>
-        {% for n in f.notas %}<p class="bt-n">{{ n }}</p>{% endfor %}
-        {% if f.faltan %}<p class="bt-n falta">Falta en la fuente: {{ f.faltan | join(', ') }} (se muestra «—»).</p>{% endif %}
-        <p class="bt-fuentes"><b>Fuentes:</b> {% for t, u in f.fuentes %}<a href="{{ u }}" rel="noopener">{{ t }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</p>
-      </div>
-    </details>
+  <article class="bt-card" data-nombre="{{ f.nombre }}"{% for k, v in f.v.items() %} data-{{ k }}="{{ v if v is not none else '' }}"{% endfor %}>
+    <div class="bt-cab">
+      {% if f.logo %}<img class="bt-logo" src="{{ f.logo }}" alt="" width="28" height="28" loading="lazy">{% else %}<span class="bt-logo bt-ini" aria-hidden="true">{{ f.inicial }}</span>{% endif %}
+      <h3 title="{{ f.nombre }} ({{ f.ticker }})">{{ f.nombre }}</h3>
+      <p class="bt-kpi"><span>Margen neto <b class="{{ 'rojo' if f.c.margen.startswith('−') else '' }}">{{ f.c.margen }}</b></span><span>PER <b>{{ f.c.per }}</b></span></p>
+    </div>
+    {{ barras(f.barras) }}
   </article>
   {% endmacro %}
 
   {% for gid, nombre, fs in grupos %}
   {% if gid == 'otras' %}
   <section class="bt-sec" aria-labelledby="t-labs">
-    <h2 id="t-labs">Laboratorios de IA</h2>
-    <p class="bt-nota">No cotizan por separado. Anthropic: cuentas auditadas de su folleto S-1 ante la SEC. xAI: segmento de IA de SpaceX (incluye X y Cursor), de las cifras de SpaceX. OpenAI: estimaciones de prensa. Cada cifra lleva su fuente; el resultado es el operativo (las pérdidas netas incluyen sobre todo ajustes contables de valor razonable, en el detalle). Actualizado a mano el {{ labs_actualizado }}.</p>
+    <h2 id="t-labs">Laboratorios de IA <small>· 2025</small></h2>
     <div class="bt-cards labs">
       {% for l in labs %}
-      <article class="bt-card lab{% if l.rentable is false %} pierde{% endif %}">
-        <details>
-          <summary>
-            <div class="bt-cab">
-              <span class="bt-logo bt-ini" aria-hidden="true">{{ l.nombre[:1] }}</span>
-              <div class="bt-nom"><h3>{{ l.nombre }}</h3><span class="bt-meta">{{ l.estado }}</span></div>
-              <span class="bt-badge {{ 'si' if l.rentable else ('no' if l.rentable is false else 'nd') }}"><small>Rentable {{ l.periodo }}</small>{{ 'SÍ' if l.rentable else ('NO' if l.rentable is false else '—') }}</span>
-            </div>
-            <dl class="bt-grid lab">
-              {% for it in l.principales %}<div><dt>{{ it.corta }}</dt><dd class="{{ 'neg' if it.neg else '' }}">{{ it.valor }}{% if it.calculado %}<sup title="Cálculo propio">c</sup>{% endif %}</dd></div>{% endfor %}
-            </dl>
-            <p class="bt-labnota">{{ l.nota }}</p>
-            <span class="bt-mas">Más cifras y fuentes</span>
-          </summary>
-          <div class="bt-detalle">
-            <ul class="bt-lineas">
-              {% for it in l.principales %}<li>{{ it.etiqueta }}: <b>{{ it.valor }}</b> — <a href="{{ it.url }}" rel="noopener">{{ it.fuente }}</a>{% if it.fecha %}, {{ it.fecha }}{% endif %}{% if it.calculado %} (cálculo propio){% endif %}</li>{% endfor %}
-              {% for it in l.otros %}<li>{{ it.etiqueta }}{% if it.valor != '—' %}: <b>{{ it.valor }}</b>{% endif %}. {{ it.texto }} — <a href="{{ it.url }}" rel="noopener">{{ it.fuente }}</a>{% if it.fecha %}, {{ it.fecha }}{% endif %}</li>{% endfor %}
-            </ul>
-            <p class="bt-n">{{ l.verificacion }}</p>
-          </div>
-        </details>
+      <article class="bt-card lab">
+        <div class="bt-cab">
+          <span class="bt-logo bt-ini" aria-hidden="true">{{ l.nombre[:1] }}</span>
+          <h3>{{ l.nombre }}</h3>
+          <p class="bt-kpi"><span>Margen op. <b class="{{ 'rojo' if l.margen.startswith('−') else '' }}">{{ l.margen }}</b></span><span>PER <b>no cotiza</b></span></p>
+        </div>
+        {{ barras(l.barras) }}
       </article>
       {% endfor %}
     </div>
@@ -151,34 +76,21 @@
   {% endif %}
   <section class="bt-sec" aria-labelledby="t-{{ gid }}">
     <h2 id="t-{{ gid }}">{{ nombre }}</h2>
-    {% if gid == 'mag7' %}<p class="bt-nota">Apple, Microsoft, Alphabet, Amazon, NVIDIA, Meta y Tesla. Toca una tarjeta para ver el detalle y las fuentes.</p>
-    {% else %}<p class="bt-nota">Las mayores tecnológicas del mundo fuera de las 7: chips y su maquinaria, memoria, nube, software e internet. Juntas: capex {{ otras_t.capex }}, caja libre {{ otras_t.fcf }}, beneficio {{ otras_t.beneficio }} en 12 meses; {{ otras.rentables }} de {{ otras.n }} con beneficio.</p>{% endif %}
     <div class="bt-cards" data-grupo="{{ gid }}">
       {% for f in fs %}{{ tarjeta(f) }}{% endfor %}
     </div>
-    <p class="bt-vacio" hidden>Ninguna empresa de este grupo cumple el filtro.</p>
   </section>
   {% endfor %}
 
-  <section class="bt-sec" aria-labelledby="t-caja">
-    <h2 id="t-caja">¿Cuánta caja se come el capex?</h2>
-    <p class="bt-nota">Capex de los últimos 12 meses como porcentaje del flujo de caja operativo. Por encima del 100 % (línea roja), la empresa invierte más de lo que genera y tira de deuda o de caja acumulada.</p>
-    <div id="g-capex-caja" class="bt-graf alto" role="img" aria-label="Capex sobre caja operativa por empresa"></div>
-  </section>
-
   <section class="bt-sec bt-metodo" aria-labelledby="t-met">
-    <h2 id="t-met">Metodología y fuentes</h2>
-    <p><b>Qué se mide.</b> Todo son cifras de los últimos 12 meses publicados (la suma de los cuatro últimos trimestres). <b>Rentable</b> = beneficio neto atribuible a los accionistas positivo. <b>Capex</b> = inversión en inmovilizado (centros de datos, chips, fábricas, redes). <b>Caja libre (FCF)</b> = flujo de caja operativo − capex. <b>Capex / FCF</b> = cuántas veces el capex es lo que queda libre (sólo si el FCF es positivo). <b>PER</b> = capitalización / beneficio neto de 12 meses, todo en dólares.</p>
-    <p><b>Hace un año.</b> Si la fuente tiene la cifra de 12 meses que acaba justo un año antes (±45 días), se compara con esa. Si no, se compara el último ejercicio anual cerrado con el anterior, y la tarjeta lo dice («FCF último ejercicio»). El gráfico de las 7 suma ejercicios fiscales; los que no acaban en diciembre se asignan por la convención habitual (si acaba de junio en adelante cuenta para ese año; si acaba entre enero y mayo, para el anterior).</p>
-    <p><b>Fuentes.</b> Cuentas, sector y tipos de cambio: Yahoo Finance (series de resultados trimestrales y anuales). Capitalización y logotipos: <a href="https://companiesmarketcap.com/">companiesmarketcap.com</a> ({{ origen_ranking }}). Cada tarjeta enlaza a sus páginas de origen.</p>
-    {% if tcs %}<p><b>Divisas.</b> Las cuentas publicadas en otra moneda se pasan a dólares con la media de los cierres diarios de los 12 meses que cubren (un flujo de un año, a un tipo medio del año): {% for m, tc, d, a, b in tcs %}{{ m }} a {{ tc }} $ ({{ a }}–{{ b }}){% if not loop.last %}; {% endif %}{% endfor %}. La capitalización ya viene en dólares a precio de hoy.</p>{% endif %}
-    <p><b>Por qué estas empresas.</b> Las 7 magníficas son las siete grandes de EE. UU. que más pesan en el S&amp;P 500. Las otras {{ otras.n }} son las mayores tecnológicas del mundo por capitalización metidas en la cadena de la IA (chips, memoria, maquinaria para fabricar chips, nube, software e internet), incluidas TSMC, Micron y Broadcom. Los laboratorios de IA no cotizan: sus cifras salen de sus folletos ante la SEC o de prensa. {{ labs_metodo }}</p>
-    <p><b>Actualización.</b> Una tarea de GitHub Actions descarga los datos, comprueba los cálculos y publica la web cada día laborable tras el cierre de Nueva York. Las cuentas cambian cuando cada empresa publica resultados; los laboratorios se actualizan a mano. Todo está escrito en Python; el código está en <a href="https://github.com/Davizz-dev13/big-tech">GitHub</a>.</p>
-    {% if faltas %}<p><b>Datos que faltan hoy en la fuente</b> (se muestran como «—», nunca se rellenan): {% for n, fs in faltas %}{{ n }} ({{ fs | join(', ') }}){% if not loop.last %}; {% endif %}{% endfor %}.</p>{% endif %}
-    <p class="bt-n">Inspirado en <a href="https://isaiprofitable.com/">isaiprofitable.com</a>, que mide sólo el gasto e ingreso de IA; aquí se mira la empresa entera. Nada de esto es asesoramiento financiero.</p>
+    <h2 id="t-met">Fuentes y metodología</h2>
+    <p>Cifras de los últimos 12 meses publicados (suma de los cuatro últimos trimestres), en dólares. <b>Gasto en capex</b>: inversión en centros de datos, chips, fábricas y redes. <b>Margen neto</b>: beneficio neto / ingresos. <b>PER</b>: capitalización / beneficio neto. En cada tarjeta, las tres barras van a la misma escala. Laboratorios de IA: cifras de 2025; gasto = costes y gastos operativos totales (en xAI, capex del segmento de IA, que es la cifra que publica SpaceX), resultado = operativo, margen = resultado operativo / ingresos.</p>
+    <p>Cuentas: Yahoo Finance ({% for gid, nombre, fs in grupos %}{% for f in fs %}<a href="{{ f.fuentes[0][1] }}" rel="noopener">{{ f.ticker }}</a>{% if not loop.last %}, {% endif %}{% endfor %}{% if not loop.last %}; {% endif %}{% endfor %}). Capitalización y logotipos: <a href="https://companiesmarketcap.com/">companiesmarketcap.com</a>.{% if tcs %} Cuentas en otra moneda pasadas a dólares con la media de cierres diarios del periodo: {% for m, tc, d, a, b in tcs %}{{ m }} a {{ tc }} ${% if not loop.last %}; {% endif %}{% endfor %}.{% endif %}</p>
+    <p>Laboratorios: {% for l in labs %}<b>{{ l.nombre }}</b>, {{ l.estado }} ({% for it in l.principales[:3] %}<a href="{{ it.url }}" rel="noopener">{{ it.corta }}</a>{% if not loop.last %}, {% endif %}{% endfor %}){% if not loop.last %}; {% endif %}{% endfor %}.</p>
+    {% if faltas %}<p>Sin dato en la fuente (se muestra «—»): {% for n, fs in faltas %}{{ n }} ({{ fs | join(', ') }}){% if not loop.last %}; {% endif %}{% endfor %}.</p>{% endif %}
+    <p>Se actualiza sola cada día laborable tras el cierre de Nueva York. Código en <a href="https://github.com/Davizz-dev13/big-tech">GitHub</a>. No es asesoramiento financiero.</p>
   </section>
 </main>
-<script type="application/json" id="figs">{{ figs | safe }}</script>
 <footer class="site-foot"><p class="foot-legal"><b>Aviso legal.</b> Sharpe Lab es un proyecto personal de aprendizaje. Nada de lo que aparece aquí es asesoramiento financiero ni una recomendación de compra o venta.</p><p class="foot-links"><a href="/sharpe-lab/">Inicio</a><a href="/sharpe-lab/metodologia/">Metodología</a><a href="/sharpe-lab/sobre-mi/">Sobre mí</a><a href="https://github.com/Davizz-dev13/big-tech">Código en GitHub</a><a href="https://davizz-dev13.github.io/">David Gallardo</a></p><p class="foot-sig">Sharpe Lab &middot; David Gallardo &middot; Madrid, España</p></footer>
 </body>
 </html>
