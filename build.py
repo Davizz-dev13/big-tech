@@ -28,6 +28,13 @@ from bigtech import universo as U
 
 RAIZ = Path(__file__).resolve().parent
 MADRID = ZoneInfo("Europe/Madrid")
+
+
+def utc(dt: datetime) -> str:
+    """Desfase UTC de una hora con zona, p. ej. "UTC+1" (invierno) o "UTC+2" (verano)."""
+    minutos = int(dt.utcoffset().total_seconds() // 60)
+    h, m = divmod(abs(minutos), 60)
+    return f"UTC{'-' if minutos < 0 else '+'}{h}" + (f":{m:02d}" if m else "")
 MINIMO = 20   # con menos empresas con cuentas completas no se publica (se queda la versión anterior)
 
 log = logging.getLogger("bigtech")
@@ -231,7 +238,7 @@ def construir(empresas, salida: Path, meta: dict) -> dict:
 
     contexto = dict(
         version=int(ahora.timestamp()),
-        sello=f"Datos a {F.fecha(am)}, {am:%H:%M} (hora de Madrid) · cuentas de los últimos 12 meses publicados "
+        sello=f"Datos a {F.fecha(am)}, {am:%H:%M} ({utc(am)}) · cuentas de los últimos 12 meses publicados "
               f"(último trimestre entre {F.mes(fechas[0])} y {F.mes(fechas[-1])})",
         respuesta=respuesta, clase=clase, avisos=avisos,
         m7={k: (F.dinero(v) if k in ("cap", "ingresos", "beneficio", "ocf", "capex", "fcf") else v) for k, v in m7.items()},
